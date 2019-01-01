@@ -57,11 +57,7 @@ class MyApp extends StatelessWidget {
               ],
             ),
           ),
-          Icon(
-            Icons.star,
-            color: Colors.red,
-          ),
-          Text('41'),
+          FavoriteWidget(),
         ],
       ),
     );
@@ -82,10 +78,9 @@ class MyApp extends StatelessWidget {
     Widget textSection = Container(
       padding: const EdgeInsets.all(32.0),
       child: Text(
-        '''
-        Lake Oeschinen lies at the foot of the Blüemlisalp in the Bernese Alps. Situated 1,578 meters above sea level, it is one of the larger Alpine Lakes. A gondola ride from Kandersteg, followed by a half-hour walk through pastures and pine forest, leads you to the lake, which warms to 20 degrees Celsius in the summer. Activities enjoyed here include rowing, and riding the summer toboggan run.Ω
+        '''Lake Oeschinen lies at the foot of the Blüemlisalp in the Bernese Alps. Situated 1,578 meters above sea level, it is one of the larger Alpine Lakes. A gondola ride from Kandersteg, followed by a half-hour walk through pastures and pine forest, leads you to the lake, which warms to 20 degrees Celsius in the summer. Activities enjoyed here include rowing, and riding the summer toboggan run.Ω
         ''',
-        softWrap: true, // 折り返して表示
+        softWrap: true, // 折り返して表示(デフォルトはtrue)
       ),
     );
 
@@ -95,6 +90,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
+        appBar: AppBar(
+          title: Text('Building Layouts'),
+        ),
         body: ListView(
           children: <Widget>[
             Image.asset(
@@ -112,6 +110,52 @@ class MyApp extends StatelessWidget {
 
     );
 
+  }
+}
 
+class FavoriteWidget extends StatefulWidget {
+  @override
+  _FavoriteWidgetState createState() => _FavoriteWidgetState();
+}
+
+class _FavoriteWidgetState extends State<FavoriteWidget> {
+  bool _isFavorited = true;
+  int _favoriteCount = 41;
+
+  void _toggleFavorite() {
+    setState(() {
+      if (_isFavorited) {
+        _favoriteCount -= 1;
+        _isFavorited = false;
+      } else {
+        _favoriteCount += 1;
+        _isFavorited = true;
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.all(0.0),
+          child: IconButton(
+              icon: (_isFavorited
+                  ? Icon(Icons.star)
+                  : Icon(Icons.star_border)),
+              color: Colors.red[500],
+              onPressed: _toggleFavorite
+          ),
+        ),
+        SizedBox(
+          width: 18.0,
+          child: Container(
+            child: Text('$_favoriteCount'),
+          ),
+        ),
+      ],
+    );
   }
 }
